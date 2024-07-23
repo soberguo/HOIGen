@@ -6,7 +6,8 @@
 
 
 # HOIGen
-Official code of ACM MM2024 paper- Unseen No More: Unlocking the Potential of CLIP for Generative Zero-shot HOI Detection
+Official code of ACM MM2024 paper- Unseen No More: Unlocking the Potential of CLIP for Generative Zero-shot HOI Detection.
+![产品截图][product-screenshot]
 
 
 
@@ -23,6 +24,6 @@ Official code of ACM MM2024 paper- Unseen No More: Unlocking the Potential of CL
 [stars-url]: https://github.com/soberguo/HOIGen/stargazers
 [issues-shield]: https://img.shields.io/github/issues/soberguo/HOIGen.svg?style=for-the-badge
 [issues-url]: https://github.com/soberguo/HOIGen/issues
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: images/fig1.png
 
 
