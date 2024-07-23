@@ -14,15 +14,11 @@ Follow the process of [UPT](https://github.com/fredzzhang/upt).
 
 The downloaded files should be placed as follows. Otherwise, please replace the default path to your custom locations.
 ```
-|- ADA-CM
+|- HOIGen
 |   |- hicodet
 |   |   |- hico_20160224_det
 |   |       |- annotations
 |   |       |- images
-|   |- vcoco
-|   |   |- mscoco2014
-|   |       |- train2014
-|   |       |-val2014
 :   :      
 ```
 
@@ -36,11 +32,10 @@ cd CLIP && python setup.py develop && cd ..
 
 3. Download the CLIP weights to `checkpoints/pretrained_clip`.
 ```
-|- ADA-CM
+|- HOIGen
 |   |- checkpoints
 |   |   |- pretrained_clip
 |   |       |- ViT-B-16.pt
-|   |       |- ViT-L-14-336px.pt
 :   :      
 ```
 
@@ -50,58 +45,89 @@ cd CLIP && python setup.py develop && cd ..
 | Dataset | DETR weights |
 | --- | --- |
 | HICO-DET | [weights](https://drive.google.com/file/d/1BQ-0tbSH7UC6QMIMMgdbNpRw2NcO8yAD/view?usp=sharing)  |
-| V-COCO | [weights](https://drive.google.com/file/d/1AIqc2LBkucBAAb_ebK9RjyNS5WmnA4HV/view?usp=sharing) |
+
 
 
 ```
-|- ADA-CM
+|- HOIGen
 |   |- checkpoints
 |   |   |- detr-r50-hicodet.pth
-|   |   |- detr-r50-vcoco.pth
 :   :   :
 ```
 
 ## Pre-extracted Features
-Download the pre-extracted features from [HERE](https://drive.google.com/file/d/1lUnUQD3XcWyQdwDHMi74oXBcivibGIWN/view?usp=sharing) and the pre-extracted bboxes from [HERE](https://drive.google.com/file/d/19Mo1d4J6xX9jDNvDJHEWDpaiPKxQHQsT/view?usp=sharing). The downloaded files have to be placed as follows.
+Download the pre-extracted features from [HERE](https://drive.google.com/file/d/1lUnUQD3XcWyQdwDHMi74oXBcivibGIWN/view?usp=sharing). The downloaded files have to be placed as follows.
 
 ```
-|- ADA-CM
+|- HOIGen
 |   |- hicodet_pkl_files
 |   |   |- union_embeddings_cachemodel_crop_padding_zeros_vitb16.p
-|   |   |- hicodet_union_embeddings_cachemodel_crop_padding_zeros_vit336.p
-|   |   |- hicodet_train_bbox_R50.p
-|   |   |- hicodet_test_bbox_R50.p
-|   |- vcoco_pkl_files
-|   |   |- vcoco_union_embeddings_cachemodel_crop_padding_zeros_vit16.p
-|   |   |- vcoco_union_embeddings_cachemodel_crop_padding_zeros_vit336.p
-|   |   |- vcoco_train_bbox_R50.p
-|   |   |- vcoco_test_bbox_R50.p
 :   :      
 ```
 
-## FineTuning Mode
+## Training and Testing
 ### HICO-DET
-#### Train on HICO-DET:
+#### Fully-supervised:
 ```
 python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt 
 ```
-
-#### Test on HICO-DET:
 ```
 python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --eval --resume CKPT_PATH
 ```
 
+#### UC:
+```
+python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --zs --zs_type uc0/uc1/uc2/uc3/uc4 --eval --resume CKPT_PATH
+```
+```
+python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --zs --zs_type uc0/uc1/uc2/uc3/uc4 --eval --resume CKPT_PATH
+```
+#### RF-UC:
+```
+python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --zs --zs_type rare_first --eval --resume CKPT_PATH
+```
+```
+python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --zs --zs_type rare_first --eval --resume CKPT_PATH
+```
+#### NF-UC:
+```
+python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --zs --zs_type non_rare_first --eval --resume CKPT_PATH
+```
+```
+python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --zs --zs_type non_rare_first --eval --resume CKPT_PATH
+```
+#### UV:
+```
+python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --zs --zs_type unseen_verb --eval --resume CKPT_PATH
+```
+```
+python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --zs --zs_type unseen_verb --eval --resume CKPT_PATH
+```
+#### UO:
+```
+python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --zs --zs_type unseen_object --eval --resume CKPT_PATH
+```
+```
+python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hicodet.pth --output-dir checkpoints/hico --use_insadapter --num_classes 117 --use_multi_hot --file1 hicodet_pkl_files/union_embeddings_cachemodel_crop_padding_zeros_vitb16.p --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --zs --zs_type unseen_object --eval --resume CKPT_PATH
+```
+## Model Zoo
+| Setting | Full | Seen | Unseen | Weights |
+| --- | --- |--- |--- |--- |
+| UC | 33.44  | 34.23 | 30.26 | [weights](https://drive.google.com/file/d/1UA9rzFFxNkuhUqvTGGrCJ5xpRYw-H-Ei/view?usp=sharing)|
+| RF-UC | 33.86  | 34.57 | 31.01 |[weights](https://drive.google.com/file/d/1UA9rzFFxNkuhUqvTGGrCJ5xpRYw-H-Ei/view?usp=sharing)|
+| NF-UC | 33.08  | 32.86 | 33.98 |[weights](https://drive.google.com/file/d/1UA9rzFFxNkuhUqvTGGrCJ5xpRYw-H-Ei/view?usp=sharing)|
+| UO | 33.48  | 32.90 | 36.35 |[weights](https://drive.google.com/file/d/1UA9rzFFxNkuhUqvTGGrCJ5xpRYw-H-Ei/view?usp=sharing)|
+| UV | 32.34  | 34.31 | 20.27 |[weights](https://drive.google.com/file/d/1UA9rzFFxNkuhUqvTGGrCJ5xpRYw-H-Ei/view?usp=sharing)|
 
-### V-COCO
-#### Training on V-COCO
-```
-python main_tip_finetune.py --world-size 1 --dataset vcoco --data-root vcoco/ --partitions trainval test --pretrained checkpoints/detr-r50-vcoco.pth --output-dir checkpoints/vcoco-injector-r50 --use_insadapter --num_classes 24 --use_multi_hot --file1 vcoco_pkl_files/vcoco_union_embeddings_cachemodel_crop_padding_zeros_vit16.p  --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt
-```
+## Citation
+If you find our paper and/or code helpful, please consider citing:
 
-#### Cache detection results for evaluation on V-COCO
-```
-python main_tip_finetune.py --world-size 1 --dataset vcoco --data-root vcoco/ --partitions trainval test --pretrained checkpoints/detr-r50-vcoco.pth --output-dir checkpoints/vcoco-injector-r50 --use_insadapter --num_classes 24 --use_multi_hot --file1 vcoco_pkl_files/vcoco_union_embeddings_cachemodel_crop_padding_zeros_vit16.p  --clip_dir_vit checkpoints/pretrained_clip/ViT-B-16.pt --cache --resume CKPT_PATH
-```
+
+## Acknowledgement
+We gratefully thank the authors from [UPT](https://github.com/fredzzhang/upt), [ADA-CM](https://github.com/ltttpku/ADA-CM/tree/main), [SHIP](https://github.com/mrflogs/SHIP) and [CaFo](https://github.com/OpenGVLab/CaFo) for open-sourcing their code.
+
+
+
 
 
 
