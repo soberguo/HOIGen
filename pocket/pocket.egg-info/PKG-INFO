@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: pocket
+Version: 0.5
+Summary: A deep learning library to enable rapid prototyping.
+Author: Fred Zhang
+Author-email: frederic.zhang@anu.edu.au
+License-File: LICENSE
