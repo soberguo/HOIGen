@@ -66,6 +66,13 @@ Download the pre-extracted features from [HERE](https://drive.google.com/file/d/
 ```
 
 ## Training and Testing
+### Feature Generation
+If you want to train the feature generator yourself, process the image and run the following code, otherwise load the [weights](https://drive.google.com/file/d/1PWLw6CtN8eWT_MdZID3urIEVF2U1zKyZ/view?usp=sharing) we provide and put them in `checkpoints/`.
+```
+python main_coop_vae.py --data hoi_data/human_data/object_data
+python finetune_ship.py --data hoi_data/human_data/object_data
+```
+
 ### HICO-DET
 #### Fully-supervised:
 ```
