@@ -128,8 +128,16 @@ python main_tip_finetune.py --world-size 1 --pretrained checkpoints/detr-r50-hic
 
 ## Citation
 If you find our paper and/or code helpful, please consider citing:
-
-
+```
+@inproceedings{
+guo2024unseen,
+title={Unseen No More: Unlocking the Potential of {CLIP} for Generative Zero-shot {HOI} Detection},
+author={Yixin Guo and Yu Liu and Jianghao Li and Weimin Wang and Qi Jia},
+booktitle={ACM Multimedia 2024},
+year={2024},
+url={https://openreview.net/forum?id=mAQ2fK2myX}
+}
+```
 ## Acknowledgement
 We gratefully thank the authors from [UPT](https://github.com/fredzzhang/upt), [ADA-CM](https://github.com/ltttpku/ADA-CM/tree/main), [SHIP](https://github.com/mrflogs/SHIP) and [CaFo](https://github.com/OpenGVLab/CaFo) for open-sourcing their code.
 
