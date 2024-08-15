@@ -142,7 +142,7 @@ url={https://openreview.net/forum?id=mAQ2fK2myX}
 We gratefully thank the authors from [UPT](https://github.com/fredzzhang/upt), [ADA-CM](https://github.com/ltttpku/ADA-CM/tree/main), [SHIP](https://github.com/mrflogs/SHIP) and [CaFo](https://github.com/OpenGVLab/CaFo) for open-sourcing their code.
 
 ## Tips
-Since in order to open source the code as soon as possible, there is a lot of redundancy in the code and there will be some bugs, which I will update and fix in subsequent releases
+Since in order to open source the code as soon as possible, there is a lot of redundancy in the code and there will be some bugs, which I will update and fix in subsequent releases.
 
 
 
